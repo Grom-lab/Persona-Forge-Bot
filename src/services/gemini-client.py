@@ -6,14 +6,16 @@ def configure_gemini():
     genai.configure(api_key=settings.gemini_api_key)
 
 def generate_character(data: dict, is_nsfw: bool) -> str:
+    configure_gemini()  # Добавляем инициализацию API
+    
     prompt = f"""
-    Создай детальное описание персонажа на основе данных:
-    Имя: {data['name']}
-    Возраст: {data['age']}
-    Стиль общения: {data['communication_style']}
-    Особенности поведения: {data['behavior']}
-    Дополнительные детали: {data['details']}
-    {"Режим 18+ включен" if is_nsfw else ""}
+    Создай детальное описание персонажа:
+    Имя: {data.get('name', '')}
+    Возраст: {data.get('age', '')}
+    Стиль общения: {data.get('communication_style', '')}
+    Поведение: {data.get('behavior', '')}
+    Детали: {data.get('details', '')}
+    {"🔞 Режим 18+ активирован" if is_nsfw else ""}
     """
     
     model = genai.GenerativeModel('gemini-pro')
