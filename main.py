@@ -1,7 +1,11 @@
 import os
 from dotenv import load_dotenv
 from telegram.ext import Application
-from src.handlers import main_handlers, form_handlers
+from src.handlers import (
+    start_handler,
+    toggle_nsfw_handler,
+    form_conversation_handler
+)
 
 load_dotenv()
 
@@ -12,12 +16,14 @@ async def post_init(app: Application):
     ])
 
 def main():
-    app = Application.builder().token(os.getenv("TELEGRAM_BOT_TOKEN")).post_init(post_init).build()
+    app = Application.builder()\
+        .token(os.getenv("TELEGRAM_BOT_TOKEN"))\
+        .post_init(post_init)\
+        .build()
     
-    # Регистрация обработчиков
-    app.add_handler(main_handlers.start_handler)
-    app.add_handler(form_handlers.form_conversation_handler)
-    app.add_handler(main_handlers.toggle_nsfw_handler)
+    app.add_handler(start_handler)
+    app.add_handler(form_conversation_handler)
+    app.add_handler(toggle_nsfw_handler)
     
     app.run_polling()
 
