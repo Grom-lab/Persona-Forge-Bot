@@ -1,10 +1,7 @@
-from telegram.ext import CommandHandler, CallbackQueryHandler
 from telegram import Update
-from src.services.gemini_client import generate_character
-from src.config.settings import get_settings
+from telegram.ext import CommandHandler, CallbackContext
 
-# Обработчик команды /start
-async def start(update: Update, context):
+async def start(update: Update, context: CallbackContext):
     await update.message.reply_text(
         "🔮 Добро пожаловать в PersonaForge!\n"
         "Используйте /create чтобы начать создание персонажа"
@@ -12,8 +9,7 @@ async def start(update: Update, context):
 
 start_handler = CommandHandler('start', start)
 
-# Обработчик тумблера 18+
-async def toggle_nsfw(update: Update, context):
+async def toggle_nsfw(update: Update, context: CallbackContext):
     user_data = context.user_data
     user_data['nsfw'] = not user_data.get('nsfw', False)
     status = "✅ ВКЛЮЧЕН" if user_data['nsfw'] else "🚫 ВЫКЛЮЧЕН"
