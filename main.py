@@ -1,11 +1,8 @@
 import os
 from dotenv import load_dotenv
 from telegram.ext import Application
-from src.handlers import (
-    start_handler,
-    toggle_nsfw_handler,
-    form_conversation_handler
-)
+from src.handlers.main_handlers import start_handler, toggle_nsfw_handler
+from src.handlers.form_handlers import form_conversation_handler
 
 load_dotenv()
 
